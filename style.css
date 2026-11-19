@@ -1,26 +1,35 @@
-/* 1. Gallery materials and shared type */
+/* The title font sits inside the fonts folder beside this stylesheet. */
 @font-face {
   font-family: "Casablanca Antique";
-  src: url("fonts/casablanca-antique.ttf") format("truetype");
+  src: url("fonts/cas_antn.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
+
+/* 1. Gallery materials and shared type */
 :root {
+  --divider-step: 24px;
+  --divider-ink: #916f79;
+  --selected-font: "Casablanca Antique", var(--serif);
+  --hero-time: 2s;
+  --scramble-time: 900ms;
+  --light-strength: .36;
   --paper: #ffffff;
   --mat: #ebe7da;
   --ink: #20352c;
   --muted: #454c46;
   --wine: #461212;
-  --rule: #e9e9d8;
+  --rule: #b9b9aa;
   --serif: "Times New Roman", Times, serif;
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
   --time: 1.85s;
   --hold: 0.95s;
 }
 * { box-sizing: border-box; }
-html { color-scheme: light; }
+html { color-scheme: light; background: var(--paper); }
 body {
+  isolation: isolate;
   margin: 0;
   background: var(--paper);
   color: var(--ink);
@@ -33,7 +42,12 @@ a:focus-visible, button:focus-visible {
   outline-offset: 5px;
 }
 h1, h2, p { margin: 0; }
-h1, h2 { font-family: var(--serif) ; font-weight: 400; }
+h1, h2 { font-family: var(--serif); font-weight: 400; }
+.unfinished-word {
+  font-family: "Casablanca Antique", var(--serif);
+  font-weight: 400;
+  letter-spacing: -.02em;
+}
 .script {
   font-family: "Snell Roundhand", "Edwardian Script ITC", "Monotype Corsiva", "Segoe Script", "Apple Chancery",
                "URW Chancery L", "Z003", "Times New Roman", serif;
@@ -57,7 +71,7 @@ h1, h2 { font-family: var(--serif) ; font-weight: 400; }
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  border-bottom: 1px solid var(--rule);
+  position: relative;
   font-size: .9rem;
 }
 .site-bar a, .quiet-link {
@@ -88,7 +102,7 @@ h1, h2 { font-family: var(--serif) ; font-weight: 400; }
   font-size: .91rem;
   text-decoration: none;
 }
-.action:hover { background: #23352c; }
+.action:hover { background: #304d3e; }
 .action:focus-visible { outline-color: var(--wine); }
 .quiet-link { width: fit-content; font-size: .84rem; }
 
@@ -161,11 +175,11 @@ h1, h2 { font-family: var(--serif) ; font-weight: 400; }
 .entrance-status { width: min(15.5rem, 80vw); }
 .entrance-status .quiet-link { margin-top: .85rem; color: #deded1; }
 
-/* 4. The exhibition wall and pointed-arch bookplate. */
+/* 4. The exhibition title and the artist's drawing share the opening screen. */
 .gallery-intro {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: clamp(1rem, 6vw, 6rem);
+  grid-template-columns: minmax(0, 1fr) 32%;
+  gap: clamp(.8rem, 3.8vw, 3.75rem);
   align-items: center;
   min-height: 77vh;
   min-height: 77svh;
@@ -186,22 +200,42 @@ h1, h2 { font-family: var(--serif) ; font-weight: 400; }
   letter-spacing: -.044em;
 }
 
-.bookplate::before, .bookplate::after {
-  content: "";
-  position: absolute;
-  clip-path: var(--arch);
+.artist-portrait { width: 100%; margin: 0; display: grid; justify-items: center; }
+.drawing-window { position: relative; width: min(100%, 17rem, 24svh); aspect-ratio: 696 / 1480; overflow: hidden; }
+.drawing-window img {
+  display: block; position: absolute; width: 220.69%; height: auto;
+  left: -48.28%; top: -38.38%;
 }
-
-.bookplate::after  { z-index: -1; inset: 1.5px; background: var(--paper); }
-.plate-initials { position: relative; top: .12em; font-size: clamp(4rem, 6.7vw, 6rem); line-height: 2; }
-.plate-initials > span { margin-left: -.4em; position: relative; top: .2em; }
+.plate-initials { display: inline-block; position: relative; font-size: 1.7rem; line-height: 1.2; }
+.plate-initials > span { position: relative; top: .18em; margin-left: -.4em; }
+@keyframes gallery-arrival {
+  from { opacity: 0; transform: translateY(.6rem); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .gallery-intro .exhibit-title, .artist-portrait { animation: gallery-arrival var(--hero-time) ease-out both; }
+}
 .selected-work {
   background: var(--mat);
   min-height: 79vh;
   min-height: 79svh;
   padding-block: clamp(5rem, 13vw, 11rem);
 }
-.selected-work .eyebrow { color: var(--muted); }
+.selected-type, .selected-work .selected-type {
+  font: 400 1.35rem/1.2 var(--selected-font); letter-spacing: .025em;
+  color: var(--wine); text-transform: none;
+}
+.selected-work .selected-type { font-size: clamp(1.45rem, 2.3vw, 2rem); }
+.site-bar::after, .work-entry::before {
+  content: ""; position: absolute; inset-inline: 0; height: 6px; pointer-events: none;
+  color: var(--divider-ink);
+  background:
+    conic-gradient(from 135deg at 50% 0%, currentColor 90deg, transparent 0) 0 top / var(--divider-step) 3px repeat-x,
+    conic-gradient(from -45deg at 50% 100%, currentColor 90deg, transparent 0) 0 bottom / var(--divider-step) 3px repeat-x,
+    radial-gradient(circle at 1px 50%, currentColor .8px, transparent 1.1px) 0 center / var(--divider-step) 100% repeat-x;
+}
+.site-bar::after { bottom: 0; }
+.work-entry::before { top: 0; }
 .work-entry {
   width: min(100%, 43rem);
   display: flex;
@@ -209,13 +243,12 @@ h1, h2 { font-family: var(--serif) ; font-weight: 400; }
   justify-content: space-between;
   gap: 1rem;
   padding-top: 1.2rem;
-  border-top: 1px solid var(--rule);
+  position: relative;
 }
 .work-entry p { font-size: .9rem; color: var(--muted); }
 
-/* 5. Each letter moves to its own typeset position. The real title holds the space. */
+/* 5. Scrambled type. The real word reserves its width and supplies its reading order. */
 .gather {
-  position: relative;
   width: fit-content;
   max-width: 100%;
   margin: 1.3rem 0 2rem;
@@ -223,47 +256,110 @@ h1, h2 { font-family: var(--serif) ; font-weight: 400; }
   line-height: 1.14;
   letter-spacing: -.045em;
 }
-.loose-type { display: none; }
-.word { white-space: nowrap; }
-.word i {
-  --x: -.33em;
-  --y: -.34em;
-  --turn: -12deg;
-  --end: 33%;
+.scramble-word {
+  --from-x: -.13em;
+  position: relative;
   display: inline-block;
-  font-style: normal;
+  white-space: nowrap;
 }
-.word i:nth-child(2n) { --x: .15em; --y: .25em; --turn: 9deg; --end: 37%; }
-.word i:nth-child(3n) { --x: .42em; --y: -.42em; --turn: 16deg; --end: 40%; }
-.word i:nth-child(4n) { --x: -.16em; --y: .36em; --turn: -8deg; --end: 35%; }
-@keyframes set-letter {
-  from { opacity: .48; transform: translate(var(--x), var(--y)) rotate(var(--turn)) scaleY(1.15); }
-  to   { opacity: 1; transform: translate(0, 0) rotate(0deg) scaleY(1); }
+.scramble-word:nth-child(even) { --from-x: .15em; }
+.scramble-text { display: inline-block; }
+.scramble-echo { display: none; }
+
+@keyframes settle-word {
+  0%, 45% { opacity: 0; transform: translateY(.08em); }
+  79% { opacity: 1; }
+  100% { opacity: 1; transform: none; }
 }
-@keyframes ink-in  { from { opacity: 0; } to { opacity: 1; } }
-@keyframes ink-out { from { opacity: 1; } to { opacity: 0; } }
-@supports (view-timeline-name: --wall-title) and (animation-range: entry 0% cover 42%) {
-  @media (prefers-reduced-motion: no-preference) {
-    .gather { view-timeline-name: --wall-title; view-timeline-axis: block; }
-    .loose-type { display: block; position: absolute; inset: 0; pointer-events: none; user-select: none; }
-    .gather i, .gather .typeset, .gather .loose-type {
+@keyframes shuffle-word {
+  0% {
+    content: attr(data-mix);
+    opacity: .72;
+    transform: translate(var(--from-x), -.12em) skewX(-6deg);
+  }
+  29% {
+    content: attr(data-mix);
+    opacity: .82;
+    transform: translate(.03em, .035em) skewX(2deg);
+  }
+  30%, 48% { content: attr(data-near); opacity: .84; transform: translateY(-.025em); }
+  72%, 100% { content: attr(data-near); opacity: 0; transform: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .scramble-echo {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+  }
+  .scramble-echo::before { content: attr(data-mix); display: inline-block; opacity: 0; }
+  .scramble-text, .scramble-echo::before {
+    animation-duration: var(--scramble-time);
+    animation-delay: var(--word-wait, 0s);
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+  .scramble-text { animation-name: settle-word; }
+  .scramble-echo::before { animation-name: shuffle-word; }
+
+  /* Where view timelines are supported, lower text resolves as it crosses the edge. */
+  @supports (animation-timeline: view()) and (animation-range: entry 0% entry 100%) {
+    :where(.scroll-words) .scramble-word { view-timeline: --word-view block; }
+    :where(.scroll-words) .scramble-text,
+    :where(.scroll-words) .scramble-echo::before {
+      animation-timeline: --word-view;
+      animation-range: entry 0% entry 100%;
       animation-duration: 1ms;
-      animation-timing-function: linear;
-      animation-fill-mode: both;
-      animation-timeline: --wall-title;
+      animation-delay: 0s;
     }
-    .gather i {
-      animation-name: set-letter;
-      animation-range: entry 0% cover var(--end);
+  }
+
+  /* A viewport trigger starts a timed animation that finishes even if the visitor stops scrolling. */
+  @supports (timeline-trigger: --word-in view() entry 0% exit 100%) and (trigger-scope: --word-in) and (animation-trigger: --word-in play-once) {
+    :where(.scroll-words) .scramble-word {
+      timeline-trigger: --word-in view() entry 0% exit 100%;
+      trigger-scope: --word-in;
     }
-    .gather .typeset { animation-name: ink-in; animation-range: cover 40% cover 45%; }
-    .gather .loose-type { animation-name: ink-out; animation-range: cover 40% cover 45%; }
+    :where(.scroll-words) .scramble-text,
+    :where(.scroll-words) .scramble-echo::before {
+      animation-timeline: auto;
+      animation-range: normal;
+      animation-duration: var(--scramble-time);
+      animation-trigger: --word-in play-once;
+    }
   }
 }
+
+/* A translucent wash is visible on white paper. The second layer blends with the ink and painting. */
+body::before, body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--light-strength);
+}
+body::before {
+  z-index: 10;
+  background:
+    radial-gradient(ellipse at 12% 7%, rgb(181 82 115 / 25%), transparent 60%),
+    radial-gradient(ellipse at 94% 85%, rgb(88 72 132 / 20%), transparent 63%);
+}
+body::after {
+  z-index: 11;
+  background:
+    radial-gradient(ellipse at 12% 7%, #f1aabe, transparent 64%),
+    radial-gradient(ellipse at 94% 85%, #9b8cbd, transparent 67%);
+  mix-blend-mode: soft-light;
+}
+@media (forced-colors: active), print {
+  body::before, body::after, .scramble-echo { display: none; }
+  .scramble-text { animation: none; }
+}
+
 /* 6. The work has a separate loading attempt. The error waits until the meter stalls. */
 .viewing-room {
-  --time: 1.85s;
-  --hold: .95s;
   min-height: calc(100vh - 5rem);
   min-height: calc(100svh - 5rem);
   display: grid;
@@ -271,77 +367,84 @@ h1, h2 { font-family: var(--serif) ; font-weight: 400; }
   padding-block: clamp(2rem, 6vh, 4.5rem);
 }
 .attempt { display: grid; place-items: center; }
-.attempt > * { grid-area: 1 / 1; }
-.work-loading {
-  display: none;
-  width: min(100%, 18rem);
-  justify-items: start;
-  row-gap: 1.1rem;
+.work-loading { display: none; width: min(100%, 22rem); gap: .8rem; justify-items: center; }
+.loading-frame {
+  position: relative; width: min(100%, 32vh, 18rem); aspect-ratio: 1080 / 1360;
+  overflow: hidden; background: var(--mat);
 }
-.error-paper {
-  width: min(100%, 34rem);
-  padding: clamp(1.45rem, 5vw, 3.15rem);
-  background: #fbf8ef;
-  border: 1px solid #cfccbc;
-  border-top: 2px solid var(--wine);
+.blurred-print { width: 100%; height: 100%; object-fit: cover; filter: blur(10px); transform: scale(1.1); }
+.loader-disc {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 3rem; height: 3rem; border-radius: 50%; background: #fbf8efe6; display: grid; place-items: center;
 }
-.error-label { color: var(--wine); }
-.error-paper h2 {
-  margin: 1.3rem 0 1.2rem;
-  font-size: clamp(2.25rem, 4.4vw, 3.8rem);
-  line-height: 1.02;
-  letter-spacing: -.05em;
+.loader-disc img { display: block; width: 2.25rem; height: 2.25rem; }
+.work-loading .meter { width: min(100%, 32vh, 18rem); }
+.boot-error {
+  position: fixed; inset: 0; z-index: 30; overflow: auto;
+  color: #c8debd; background-color: #050605;
+  background-image: repeating-linear-gradient(0deg, transparent 0 3px, #a5c6a207 3px 4px);
+  font-family: ui-monospace, Consolas, "Courier New", monospace;
 }
-.error-paper h2 span { white-space: nowrap; }
-.statement-copy { max-width: 43ch; font-family: var(--serif); font-size: 1.18rem; line-height: 1.48; }
-.work-info { margin-top: 1.25rem; font-size: .84rem; color: var(--muted); }
-.retry { margin-top: 1.6rem; }
-@keyframes show-error {
-  from { visibility: hidden; opacity: 0; transform: translateY(5px); }
-  to   { visibility: visible; opacity: 1; transform: translateY(0); }
+.boot-log { max-width: 66rem; margin-inline: auto; padding: clamp(3rem, 17vh, 12rem) clamp(1.3rem, 7vw, 7rem) 3.5rem; }
+.boot-file { color: #9fae99; font-size: .9rem; }
+.boot-error h2 {
+  margin: .65em 0 .12em; font: 700 clamp(2.45rem, 8vw, 7rem)/1 ui-monospace, Consolas, monospace;
+  letter-spacing: -.07em; text-transform: uppercase; text-shadow: 1px 0 #9aba9280;
 }
-@keyframes dismiss-meter {
-  from { visibility: visible; opacity: 1; }
-  to   { visibility: hidden; opacity: 0; }
+.boot-error h2::after { content: ""; display: inline-block; width: .24em; height: .71em; margin-left: .15em; background: currentColor; }
+@supports (background-clip: text) {
+  @media (forced-colors: none) {
+    .boot-error h2 {
+      color: transparent; text-shadow: none; background-clip: text;
+      background-image: repeating-linear-gradient(0deg, #9daa97 0 1px, #cce1c1 1px 4px);
+    }
+    .boot-error h2::after { background: #cce1c1; }
+  }
 }
+.boot-status { font-size: clamp(.95rem, 2vw, 1.15rem); }
+.boot-error:not(:target) { --word-wait: calc(var(--time) + var(--hold)); }
+.boot-statement { max-width: 52ch; margin: 2.1rem 0 1.1rem; color: #abbba4; font-size: .9rem; line-height: 1.7; }
+.retry, .boot-back { display: block; width: fit-content; padding-block: .7rem; }
+.retry { font-size: 1.13rem; text-decoration-thickness: 2px; }
+.retry::before { content: "> " / ""; }
+.boot-back { font-size: .8rem; color: #a3b49a; }
+@keyframes boot-on  { from { visibility: hidden; } to { visibility: visible; } }
+@keyframes boot-off { from { visibility: visible; } to { visibility: hidden; } }
 @media (prefers-reduced-motion: no-preference) {
-  .work-loading {
-    display: grid;
-    animation: dismiss-meter .15s ease calc(var(--time) + var(--hold)) both;
-  }
-  .error-paper:not(:target) {
-    animation: show-error .28s ease calc(var(--time) + var(--hold) + .15s) both;
+  .work-loading { display: grid; animation: boot-off 1ms steps(1,end) calc(var(--time) + var(--hold)) both; }
+  .boot-error:not(:target) { animation: boot-on 1ms steps(1,end) calc(var(--time) + var(--hold)) both; }
+}
+#statement:target + .work-loading { display: none; }
+/* Keep keyboard focus on the active screen; navigation is available inside each state. */
+.work-page:not(:has(#artwork:target)) > .site-bar { visibility: hidden; }
+@media (prefers-reduced-motion: no-preference) {
+  .work-page:not(:has(:target)) > .site-bar {
+    visibility: visible;
+    animation: boot-off 1ms steps(1,end) calc(var(--time) + var(--hold)) both;
   }
 }
-/* Also used when someone returns to read the statement after Retry. */
-#statement:target + .work-loading { display: none; }
-
-/* 7. Retry changes the URL fragment. CSS reveals the image in staggered pieces. */
-.recovered { display: none; scroll-margin-block-start: 2rem; }
+.recovered { display: none; scroll-margin-block-start: 1rem; }
 #artwork:target { display: block; }
 #artwork:target ~ .attempt { display: none; }
+/* 7. The painting hangs at left; the start of the label sits below its top edge. */
 .recovered-layout {
-  display: grid;
-  grid-template-columns: minmax(11rem, .8fr) minmax(0, 1.5fr);
-  margin: 0;
-  gap: clamp(2rem, 5vw, 5rem);
-  align-items: center;
+  display: grid; grid-template-columns: minmax(0, 1.28fr) minmax(0, .85fr);
+  gap: clamp(1.5rem, 6vw, 6rem); margin: 0; align-items: start;
 }
-.wall-label { max-width: 17rem; }
-.wall-label h2 { margin: .9rem 0 1.2rem; font-size: clamp(2.2rem, 4.8vw, 4.6rem); letter-spacing: -.05em; line-height: .96; }
-.fragment-hint { color: var(--muted); font-size: .9rem; }
-.wall-label .quiet-link { display: flex; text-decoration: underline; }
-.wall-label a { margin-top: 1rem; }
-.wall-label button { background: transparent; border: 0; padding: 0; color: inherit; cursor: pointer; }
-.framed-art {
-  display: grid;
-  place-items: center;
-  min-width: 0;
-  padding: clamp(.9rem, 3vw, 2.4rem);
-  background: var(--mat);
-}
-.image-stage { position: relative; width: min(100%, 48vh, 29rem); }
+.framed-art { display: grid; place-items: center; min-width: 0; padding: clamp(1rem, 3vw, 2.7rem); background: var(--mat); }
+.image-stage { position: relative; width: min(100%, 49vh, 32rem); }
 .image-stage > img { display: block; width: 100%; height: auto; }
+.wall-label { max-width: 30rem; min-width: 0; padding-block-start: clamp(1rem, 7vh, 5rem); }
+.label-credit { font-size: clamp(1.55rem, 2.5vw, 2.35rem); line-height: 1.15; color: var(--wine); }
+.label-medium { margin-top: .45rem; font-size: .8rem; letter-spacing: .065em; color: var(--muted); }
+.wall-label h2 {
+  margin: 1.1rem 0 1.4rem; font: 400 clamp(2.85rem, 5.7vw, 6rem)/.96 "Casablanca Antique", var(--serif);
+  letter-spacing: -.035em;
+}
+.statement-copy { max-width: 36ch; margin-left: clamp(0rem, 1.6vw, 1.6rem); font: 1.15rem/1.55 Baskerville, "Palatino Linotype", Palatino, var(--serif); }
+.fragment-hint { margin-top: 1.75rem; max-width: 36ch; font-size: .82rem; color: var(--muted); }
+.wall-label .quiet-link { margin-right: 1rem; text-decoration: underline; }
+.wall-label button { display: inline-flex; padding: 0; color: inherit; border: 0; background: transparent; cursor: pointer; text-decoration: underline; }
 .tiles {
   display: grid;
   position: absolute;
@@ -371,7 +474,8 @@ h1, h2 { font-family: var(--serif) ; font-weight: 400; }
   font-size: .76rem;
 }
 .tile input:checked + .cover { opacity: 1; }
-.tile input:checked + .cover::after { content: "Reveal"; }
+.cover .scramble-word { display: none; }
+.tile input:checked + .cover .scramble-word { display: inline-block; }
 .tile:focus-within { z-index: 1; outline: 2px solid var(--paper); outline-offset: -5px; box-shadow: inset 0 0 0 7px var(--wine); }
 @keyframes lift-paper {
   from { clip-path: inset(0 0 0 0); }
@@ -389,19 +493,17 @@ h1, h2 { font-family: var(--serif) ; font-weight: 400; }
 @media (max-width: 650px) {
   .page-width { width: 88%; }
   .site-bar { min-height: 4rem; }
-  .gallery-intro { min-height: 76svh; grid-template-columns: 1fr; gap: 1.9rem; align-content: center; }
-  .exhibit-title { font-size: clamp(3.6rem, 13.9vw, 5.6rem); }
+  .gallery-intro { min-height: 76svh; grid-template-columns: minmax(0, 1fr) 30%; gap: clamp(.6rem, 2.5vw, 1.15rem); align-content: center; }
+  .exhibit-title { font-size: clamp(2.2rem, 10.3vw, 4.75rem); }
   .intro-line { margin-top: 1.6rem; }
-  .bookplate { width: 4.25rem; justify-self: end; transform: none; }
-  .plate-initials { font-size: 2.35rem; }
-  .plate-flower { font-size: .85rem; }
+  .plate-initials { font-size: 1.35rem; }
   .selected-work { min-height: 76svh; padding-block: 5rem; }
   .work-entry { gap: .8rem; flex-wrap: wrap; }
   .viewing-room { min-height: calc(100svh - 4rem); }
   .recovered-layout { grid-template-columns: 1fr; gap: 1.4rem; }
   .framed-art { grid-row: 1; }
   .image-stage { width: min(100%, 24rem); }
-  .wall-label { max-width: 30rem; }
-  .wall-label h2 { margin: .3rem 0 .7rem; }
+  .wall-label { max-width: 30rem; padding-block-start: .6rem; }
+  .wall-label h2 { margin: .75rem 0 1rem; }
   .wall-label .quiet-link { display: inline-flex; margin: .5rem 1.1rem 0 0; }
 }
