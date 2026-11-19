@@ -1,48 +1,28 @@
 <!doctype html>
-<html lang="en" class="gallery-page">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- HTML opens the exhibition three seconds after this page finishes loading. -->
+  <meta http-equiv="refresh" content="3; url=exhibit.html">
   <link rel="stylesheet" href="style.css">
-  <title>Exhibition · Unfinished / In Progress</title>
+  <title>Entering · Unfinished / In Progress</title>
 </head>
-<body>
-  <header class="site-bar page-width">
-    
-    <nav aria-label="Exhibition">
-      <a href="#selected">Selected work <span aria-hidden="true">↓</span></a>
-    </nav>
-  </header>
+<body class="entrance-page">
+  <main class="entrance">
+    <div class="entrance-title">
+      <span class="fleuron" aria-hidden="true">❦</span>
+      <h1><span class="unfinished-word">Unfinished</span> <span class="sr-only">/</span><em class="script">In Progress</em></h1>
+    </div>
 
-  <main>
-    <section class="gallery-intro page-width" aria-labelledby="show-title">
-      <div>
-        <h1 id="show-title" class="exhibit-title">
-          Unfinished<span class="sr-only"> / </span>
-          <em class="script">In Progress</em>
-        </h1>
+    <div class="entrance-status">
+      <div class="meter" style="--stop: 100; --time: 2.25s">
+        <p class="meter-label">Opening exhibition <span class="number" aria-hidden="true"></span></p>
+        <div class="track" aria-hidden="true"><span></span></div>
       </div>
-      
-        <span class="plate-initials script">K<span>V</span></span>
-        
-      </div>
-    </section>
-
-    <section id="selected" class="selected-work" aria-labelledby="work-title">
-      <div class="page-width">
-        <p class="eyebrow">Selected work</p>
-        <!-- The first span always reserves the correct width and is read aloud once.
-             The second span is the moving layer. Keep both versions of the words in sync. -->
-        <h2 id="work-title" class="gather">
-          <span class="typeset">Portrait study</span>
-          <span class="loose-type" aria-hidden="true"><span class="word"><i>P</i><i>o</i><i>r</i><i>t</i><i>r</i><i>a</i><i>i</i><i>t</i></span> <span class="word"><i>s</i><i>t</i><i>u</i><i>d</i><i>y</i></span></span>
-        </h2>
-        <div class="work-entry">
-          <p>Painting in progress</p>
-          <a class="action" href="portrait.html">Open work <span aria-hidden="true">↗</span></a>
-        </div>
-      </div>
-    </section>
+      <p class="sr-only">The exhibition opens automatically. You can also enter now.</p>
+      <a class="quiet-link" href="exhibit.html">Enter now <span aria-hidden="true">→</span></a>
+    </div>
   </main>
 </body>
 </html>
