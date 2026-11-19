@@ -1,4 +1,11 @@
 /* 1. Gallery materials and shared type */
+@font-face {
+  font-family: "Casablanca Antique";
+  src: url("fonts/casablanca-antique.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 :root {
   --paper: #ffffff;
   --mat: #ebe7da;
@@ -26,7 +33,7 @@ a:focus-visible, button:focus-visible {
   outline-offset: 5px;
 }
 h1, h2, p { margin: 0; }
-h1, h2 { font-family: "cas_antn.ttf" ; font-weight: 400; }
+h1, h2 { font-family: var(--serif) ; font-weight: 400; }
 .script {
   font-family: "Snell Roundhand", "Edwardian Script ITC", "Monotype Corsiva", "Segoe Script", "Apple Chancery",
                "URW Chancery L", "Z003", "Times New Roman", serif;
