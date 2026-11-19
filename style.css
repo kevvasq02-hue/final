@@ -178,18 +178,7 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
   line-height: 1.2;
   letter-spacing: -.044em;
 }
-.intro-line { max-width: 25rem; margin-top: 2.5rem; color: var(--muted); }
-.bookplate {
-  --arch: polygon(50% 0%,61% 7%,71% 15%,80% 24%,87% 33%,93% 43%,97% 53%,99.2% 62%,100% 71%,100% 100%,0 100%,0 71%,.8% 62%,3% 53%,7% 43%,13% 33%,20% 24%,29% 15%,39% 7%);
-  width: clamp(8.5rem, 15vw, 13rem);
-  aspect-ratio: .7;
-  position: relative;
-  isolation: isolate;
-  display: grid;
-  place-items: center;
-  color: var(--wine);
-  transform: translateY(-.7rem);
-}
+
 .bookplate::before, .bookplate::after {
   content: "";
   position: absolute;
