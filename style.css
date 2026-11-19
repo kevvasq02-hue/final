@@ -1,10 +1,10 @@
 /* 1. Gallery materials and shared type */
 :root {
-  --paper: #f5f1e8;
+  --paper: #ffffff;
   --mat: #ebe7da;
   --ink: #20352c;
-  --muted: #536055;
-  --wine: #6c3041;
+  --muted: #454c46;
+  --wine: #461212;
   --rule: #b9b9aa;
   --serif: "Times New Roman", Times, serif;
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
