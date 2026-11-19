@@ -1,0 +1,268 @@
+/* 1. Gallery materials and shared type */
+:root {
+  --paper: #f5f1e8;
+  --mat: #ebe7da;
+  --ink: #20352c;
+  --muted: #536055;
+  --wine: #6c3041;
+  --rule: #b9b9aa;
+  --serif: "Times New Roman", Times, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  --time: 1.85s;
+  --hold: 0.95s;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 1rem/1.5 var(--sans);
+}
+a { color: inherit; text-underline-offset: .22em; }
+button, input { font: inherit; }
+a:focus-visible, button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 5px;
+}
+h1, h2, p { margin: 0; }
+h1, h2 { font-family: var(--serif); font-weight: 400; }
+.script {
+  font-family: "Snell Roundhand", "Edwardian Script ITC", "Monotype Corsiva", "Segoe Script", "Apple Chancery",
+               "URW Chancery L", "Z003", "Times New Roman", serif;
+  font-weight: 400;
+  font-style: italic;
+  font-synthesis: none;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.page-width { width: min(83%, 72rem); margin-inline: auto; }
+.site-bar {
+  min-height: 5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid var(--rule);
+  font-size: .9rem;
+}
+.site-bar a, .quiet-link {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  text-decoration: none;
+}
+.site-bar a:hover, .quiet-link:hover { text-decoration: underline; }
+.artist-name { font-weight: 550; letter-spacing: -.025em; }
+.eyebrow {
+  font: 500 .76rem/1.5 var(--sans);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  min-height: 44px;
+  padding: .62rem 1.35rem;
+  border: 1px solid var(--ink);
+  border-radius: 2rem;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: .91rem;
+  text-decoration: none;
+}
+.action:hover { background: #304d3e; }
+.action:focus-visible { outline-color: var(--wine); }
+.quiet-link { width: fit-content; font-size: .84rem; }
+
+/* 2. A shared percentage meter. Changing the integer moves the line and number together. */
+@property --reading {
+  syntax: "<integer>";
+  inherits: true;
+  initial-value: 0;
+}
+.meter {
+  --reading: var(--stop);
+  width: min(100%, 18rem);
+}
+.meter-label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.2rem;
+  margin-bottom: .6rem;
+  font-size: .875rem;
+}
+.number { font-family: ui-monospace, Consolas, monospace; font-variant-numeric: tabular-nums; }
+.number::after {
+  counter-reset: reading var(--reading);
+  content: counter(reading) "%";
+}
+.track { height: 2px; background: var(--track-color, var(--rule)); }
+.track > span {
+  display: block;
+  width: calc(var(--reading) * 1%);
+  height: 100%;
+  background: currentColor;
+}
+@keyframes count-up {
+  from { --reading: 0; }
+  to   { --reading: var(--stop); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .gallery-page { scroll-behavior: smooth; }
+  .meter { animation: count-up var(--time) cubic-bezier(.22,.62,.34,1) both; }
+}
+
+/* 3. The entrance. The actual page change is in index.html. */
+.entrance-page { background: #20312a; color: var(--paper); }
+.entrance {
+  --track-color: #6d766a;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  row-gap: clamp(2.4rem, 9vh, 6rem);
+  padding: 2rem 1.25rem;
+  text-align: center;
+}
+.entrance-title .fleuron {
+  display: block;
+  margin-bottom: 1.45rem;
+  color: #d2aeb1;
+  font: 2.35rem/1 var(--serif);
+}
+.entrance h1 { font-size: clamp(3.65rem, 8vw, 7rem); line-height: .91; letter-spacing: -.056em; }
+.entrance h1 .script {
+  display: block;
+  color: #ddbcc0;
+  margin-top: .12em;
+  font-size: .66em;
+  letter-spacing: -.025em;
+}
+.entrance-status { width: min(15.5rem, 80vw); }
+.entrance-status .quiet-link { margin-top: .85rem; color: #deded1; }
+
+/* 4. The exhibition wall and pointed-arch bookplate. */
+.gallery-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(1rem, 6vw, 6rem);
+  align-items: center;
+  min-height: 77vh;
+  min-height: 77svh;
+  padding-block: clamp(3rem, 8vw, 7rem);
+}
+.exhibit-title {
+  font-size: clamp(3.65rem, 10.7vw, 9.5rem);
+  letter-spacing: -.067em;
+  line-height: .88;
+}
+.exhibit-title .script {
+  display: block;
+  color: var(--wine);
+  width: fit-content;
+  margin: .05em 0 0 .63em;
+  font-size: .71em;
+  line-height: 1.2;
+  letter-spacing: -.044em;
+}
+.intro-line { max-width: 25rem; margin-top: 2.5rem; color: var(--muted); }
+.bookplate {
+  --arch: polygon(50% 0%,61% 7%,71% 15%,80% 24%,87% 33%,93% 43%,97% 53%,99.2% 62%,100% 71%,100% 100%,0 100%,0 71%,.8% 62%,3% 53%,7% 43%,13% 33%,20% 24%,29% 15%,39% 7%);
+  width: clamp(8.5rem, 15vw, 13rem);
+  aspect-ratio: .7;
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  color: var(--wine);
+  transform: translateY(-.7rem);
+}
+.bookplate::before, .bookplate::after {
+  content: "";
+  position: absolute;
+  clip-path: var(--arch);
+}
+.bookplate::before { z-index: -2; inset: 0; background: #9a9785; }
+.bookplate::after  { z-index: -1; inset: 1.5px; background: var(--paper); }
+.plate-initials { position: relative; top: .12em; font-size: clamp(4rem, 6.7vw, 6rem); line-height: 1; }
+.plate-initials > span { margin-left: -.4em; position: relative; top: .2em; }
+.plate-flower { position: absolute; bottom: 8%; font: 1.35rem var(--serif); }
+.selected-work {
+  background: var(--mat);
+  min-height: 79vh;
+  min-height: 79svh;
+  padding-block: clamp(5rem, 13vw, 11rem);
+}
+.selected-work .eyebrow { color: var(--muted); }
+.work-entry {
+  width: min(100%, 43rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--rule);
+}
+.work-entry p { font-size: .9rem; color: var(--muted); }
+
+/* 5. Each letter moves to its own typeset position. The real title holds the space. */
+.gather {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  margin: 1.3rem 0 2rem;
+  font-size: clamp(2.7rem, 7.2vw, 6.7rem);
+  line-height: 1.14;
+  letter-spacing: -.045em;
+}
+.loose-type { display: none; }
+.word { white-space: nowrap; }
+.word i {
+  --x: -.33em;
+  --y: -.34em;
+  --turn: -12deg;
+  --end: 33%;
+  display: inline-block;
+  font-style: normal;
+}
+.word i:nth-child(2n) { --x: .15em; --y: .25em; --turn: 9deg; --end: 37%; }
+.word i:nth-child(3n) { --x: .42em; --y: -.42em; --turn: 16deg; --end: 40%; }
+.word i:nth-child(4n) { --x: -.16em; --y: .36em; --turn: -8deg; --end: 35%; }
+@keyframes set-letter {
+  from { opacity: .48; transform: translate(var(--x), var(--y)) rotate(var(--turn)) scaleY(1.15); }
+  to   { opacity: 1; transform: translate(0, 0) rotate(0deg) scaleY(1); }
+}
+@keyframes ink-in  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ink-out { from { opacity: 1; } to { opacity: 0; } }
+@supports (view-timeline-name: --wall-title) and (animation-range: entry 0% cover 42%) {
+  @media (prefers-reduced-motion: no-preference) {
+    .gather { view-timeline-name: --wall-title; view-timeline-axis: block; }
+    .loose-type { display: block; position: absolute; inset: 0; pointer-events: none; user-select: none; }
+    .gather i, .gather .typeset, .gather .loose-type {
+      animation-duration: 1ms;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --wall-title;
+    }
+    .gather i {
+      animation-name: set-letter;
+      animation-range: entry 0% cover var(--end);
+    }
+    .gather .typeset { animation-name: ink-in; animation-range: cover 40% cover 45%; }
+    .gather .loose-type { animation-name: ink-out; animation-range: cover 40% cover 45%; }
+  }
+}
+
