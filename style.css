@@ -253,4 +253,148 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
     .gather .loose-type { animation-name: ink-out; animation-range: cover 40% cover 45%; }
   }
 }
+/* 6. The work has a separate loading attempt. The error waits until the meter stalls. */
+.viewing-room {
+  --time: 1.85s;
+  --hold: .95s;
+  min-height: calc(100vh - 5rem);
+  min-height: calc(100svh - 5rem);
+  display: grid;
+  align-items: center;
+  padding-block: clamp(2rem, 6vh, 4.5rem);
+}
+.attempt { display: grid; place-items: center; }
+.attempt > * { grid-area: 1 / 1; }
+.work-loading {
+  display: none;
+  width: min(100%, 18rem);
+  justify-items: start;
+  row-gap: 1.1rem;
+}
+.error-paper {
+  width: min(100%, 34rem);
+  padding: clamp(1.45rem, 5vw, 3.15rem);
+  background: #fbf8ef;
+  border: 1px solid #cfccbc;
+  border-top: 2px solid var(--wine);
+}
+.error-label { color: var(--wine); }
+.error-paper h2 {
+  margin: 1.3rem 0 1.2rem;
+  font-size: clamp(2.25rem, 4.4vw, 3.8rem);
+  line-height: 1.02;
+  letter-spacing: -.05em;
+}
+.error-paper h2 span { white-space: nowrap; }
+.statement-copy { max-width: 43ch; font-family: var(--serif); font-size: 1.18rem; line-height: 1.48; }
+.work-info { margin-top: 1.25rem; font-size: .84rem; color: var(--muted); }
+.retry { margin-top: 1.6rem; }
+@keyframes show-error {
+  from { visibility: hidden; opacity: 0; transform: translateY(5px); }
+  to   { visibility: visible; opacity: 1; transform: translateY(0); }
+}
+@keyframes dismiss-meter {
+  from { visibility: visible; opacity: 1; }
+  to   { visibility: hidden; opacity: 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .work-loading {
+    display: grid;
+    animation: dismiss-meter .15s ease calc(var(--time) + var(--hold)) both;
+  }
+  .error-paper:not(:target) {
+    animation: show-error .28s ease calc(var(--time) + var(--hold) + .15s) both;
+  }
+}
+/* Also used when someone returns to read the statement after Retry. */
+#statement:target + .work-loading { display: none; }
 
+/* 7. Retry changes the URL fragment. CSS reveals the image in staggered pieces. */
+.recovered { display: none; scroll-margin-block-start: 2rem; }
+#artwork:target { display: block; }
+#artwork:target ~ .attempt { display: none; }
+.recovered-layout {
+  display: grid;
+  grid-template-columns: minmax(11rem, .8fr) minmax(0, 1.5fr);
+  margin: 0;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+.wall-label { max-width: 17rem; }
+.wall-label h2 { margin: .9rem 0 1.2rem; font-size: clamp(2.2rem, 4.8vw, 4.6rem); letter-spacing: -.05em; line-height: .96; }
+.fragment-hint { color: var(--muted); font-size: .9rem; }
+.wall-label .quiet-link { display: flex; text-decoration: underline; }
+.wall-label a { margin-top: 1rem; }
+.wall-label button { background: transparent; border: 0; padding: 0; color: inherit; cursor: pointer; }
+.framed-art {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  padding: clamp(.9rem, 3vw, 2.4rem);
+  background: var(--mat);
+}
+.image-stage { position: relative; width: min(100%, 48vh, 29rem); }
+.image-stage > img { display: block; width: 100%; height: auto; }
+.tiles {
+  display: grid;
+  position: absolute;
+  inset: 0;
+  grid-template-columns: 30% 44% 26%;
+  grid-template-rows: 54% 46%;
+}
+.tile { position: relative; min-width: 0; }
+.tile input {
+  display: block;
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.tile::before, .cover { position: absolute; inset: 0; pointer-events: none; }
+.cover {
+  opacity: 0;
+  display: grid;
+  place-content: center;
+  background: var(--mat);
+  color: var(--muted);
+  font-size: .76rem;
+}
+.tile input:checked + .cover { opacity: 1; }
+.tile input:checked + .cover::after { content: "Reveal"; }
+.tile:focus-within { z-index: 1; outline: 2px solid var(--paper); outline-offset: -5px; box-shadow: inset 0 0 0 7px var(--wine); }
+@keyframes lift-paper {
+  from { clip-path: inset(0 0 0 0); }
+  to   { clip-path: inset(0 0 100% 0); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  #artwork:target .tile::before {
+    content: "";
+    background: var(--mat);
+    animation: lift-paper .92s cubic-bezier(.4,0,.25,1) var(--wait) both;
+  }
+  .cover { transition: opacity .25s ease; }
+}
+
+@media (max-width: 650px) {
+  .page-width { width: 88%; }
+  .site-bar { min-height: 4rem; }
+  .gallery-intro { min-height: 76svh; grid-template-columns: 1fr; gap: 1.9rem; align-content: center; }
+  .exhibit-title { font-size: clamp(3.6rem, 13.9vw, 5.6rem); }
+  .intro-line { margin-top: 1.6rem; }
+  .bookplate { width: 4.25rem; justify-self: end; transform: none; }
+  .plate-initials { font-size: 2.35rem; }
+  .plate-flower { font-size: .85rem; }
+  .selected-work { min-height: 76svh; padding-block: 5rem; }
+  .work-entry { gap: .8rem; flex-wrap: wrap; }
+  .viewing-room { min-height: calc(100svh - 4rem); }
+  .recovered-layout { grid-template-columns: 1fr; gap: 1.4rem; }
+  .framed-art { grid-row: 1; }
+  .image-stage { width: min(100%, 24rem); }
+  .wall-label { max-width: 30rem; }
+  .wall-label h2 { margin: .3rem 0 .7rem; }
+  .wall-label .quiet-link { display: inline-flex; margin: .5rem 1.1rem 0 0; }
+}

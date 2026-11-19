@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+  <title>Portrait study  Unfinished / In Progress</title>
+</head>
+<body class="work-page">
+  <header class="site-bar page-width">
+    <a href="exhibit.html#selected"><span aria-hidden="true">←</span> Exhibition</a>
+    <span class="artist-name">Kevin Vasquez</span>
+  </header>
+
+  <!-- The meter stops at this number. Match the text in the error heading below. -->
+  <main class="viewing-room page-width" style="--stop: 72">
+    <h1 class="sr-only">Portrait study</h1>
+
+    <!-- Retry links here. This section only appears when the URL ends in #artwork. -->
+    <section id="artwork" class="recovered" tabindex="-1" aria-label="Recovered portrait">
+      <form class="recovered-layout" autocomplete="off">
+        <div class="wall-label">
+          <p class="eyebrow">Painting in progress</p>
+          <h2>Portrait study</h2>
+          <p class="fragment-hint" id="fragment-hint">Tap a piece to cover it. Tap again to bring it back.</p>
+          <a class="quiet-link" href="portrait.html?note#statement">Read statement</a>
+          <button class="quiet-link" type="reset">Show every piece</button>
+        </div>
+
+        <div class="framed-art">
+          <div class="image-stage" role="group" aria-label="Six portrait fragments" aria-describedby="fragment-hint">
+            <!-- Change src, alt, width, and height together if you replace the painting. -->
+            <img src="images/portrait-study.jpg" width="1080" height="1360"
+                 alt="Painted portrait of a man with glasses leaning over a table. Warm browns and rust reds frame the pale strokes of his hand.">
+            <div class="tiles">
+              <label class="tile" style="--wait: 120ms">
+                <input type="checkbox" aria-label="Cover upper left fragment">
+                <span class="cover" aria-hidden="true"></span>
+              </label>
+              <label class="tile" style="--wait: 470ms">
+                <input type="checkbox" aria-label="Cover upper middle fragment">
+                <span class="cover" aria-hidden="true"></span>
+              </label>
+              <label class="tile" style="--wait: 0ms">
+                <input type="checkbox" aria-label="Cover upper right fragment">
+                <span class="cover" aria-hidden="true"></span>
+              </label>
+              <label class="tile" style="--wait: 650ms">
+                <input type="checkbox" aria-label="Cover lower left fragment">
+                <span class="cover" aria-hidden="true"></span>
+              </label>
+              <label class="tile" style="--wait: 250ms">
+                <input type="checkbox" aria-label="Cover lower middle fragment">
+                <span class="cover" aria-hidden="true"></span>
+              </label>
+              <label class="tile" style="--wait: 380ms">
+                <input type="checkbox" aria-label="Cover lower right fragment">
+                <span class="cover" aria-hidden="true"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <div class="attempt">
+      <section id="statement" class="error-paper" tabindex="-1" aria-labelledby="failure">
+        <p class="eyebrow error-label">Artwork statement</p>
+        <h2 id="failure">Failed to load at <span>72%.</span></h2>
+        <!-- Sample wall text. Replace with your own statement, title, and medium. -->
+        <p class="statement-copy">Follow the diagonal bands behind the figure down to the hand at the table. Against the rust-colored ground, a few pale strokes carry the weight of the fingers.</p>
+        <p class="work-info"><em>Portrait study</em> · Painting in progress</p>
+        <a class="action retry" href="portrait.html#artwork">Retry <span aria-hidden="true">↻</span></a>
+      </section>
+
+      <section class="work-loading" aria-label="Opening the portrait">
+        <div class="meter">
+          <p class="meter-label">Loading portrait <span class="number" aria-hidden="true"></span></p>
+          <div class="track" aria-hidden="true"><span></span></div>
+        </div>
+        <a class="quiet-link" href="#statement">Read statement now</a>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
