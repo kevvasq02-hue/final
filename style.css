@@ -195,11 +195,10 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
   position: absolute;
   clip-path: var(--arch);
 }
-.bookplate::before { z-index: -2; inset: 0; background: #9a9785; }
+
 .bookplate::after  { z-index: -1; inset: 1.5px; background: var(--paper); }
-.plate-initials { position: relative; top: .12em; font-size: clamp(4rem, 6.7vw, 6rem); line-height: 1; }
+.plate-initials { position: relative; top: .12em; font-size: clamp(4rem, 6.7vw, 6rem); line-height: 2; }
 .plate-initials > span { margin-left: -.4em; position: relative; top: .2em; }
-.plate-flower { position: absolute; bottom: 8%; font: 1.35rem var(--serif); }
 .selected-work {
   background: var(--mat);
   min-height: 79vh;
