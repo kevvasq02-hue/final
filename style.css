@@ -195,7 +195,7 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
 }
 
 .artist-portrait { width: 100%; margin: 0; display: grid; justify-items: center; }
-.drawing-window { position: relative; width: min(100%, 160px); aspect-ratio: 696 / 1480; overflow: hidden; }
+.drawing-window { position: relative; width: min(100%, 260px); aspect-ratio: 696 / 1480; overflow: hidden; }
 .drawing-window img {
   display: block; position: absolute; width: 220.69%; height: auto;
   left: -48.28%; top: -38.38%;
