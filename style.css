@@ -21,12 +21,12 @@
 :root {
   --ornament-color: #744351;
   --ornament-gap: 8px;
-  --selected-font: "Exhibit Small Caps", var(--serif);
+  --casablanca: "Casablanca Antique", var(--serif);
   --study-font: "Exhibit Italic", var(--serif);
   --pixel-font: "Exhibit Bitmap", ui-monospace, monospace;
   --drawing-width: clamp(3.4rem, 12svh, 7.4rem);
   --hero-time: 2.8s;
-  --scramble-time: 900ms;
+  --flow-time: 1.15s;
   --light-strength: .36;
   --paper: #ffffff;
   --mat: #ebe7da;
@@ -57,13 +57,13 @@ a:focus-visible, button:focus-visible {
 h1, h2, p { margin: 0; }
 h1, h2 { font-family: var(--serif); font-weight: 400; }
 .unfinished-word {
-  font-family: "Casablanca Antique", var(--serif);
+  font-family: var(--casablanca);
   font-weight: 400;
   letter-spacing: -.02em;
 }
 .script {
-  font-family: "Casablanca Antique", "Edwardian Script ITC", "Segoe Script",
-      , serif;
+  font-family: "Snell Roundhand", "Edwardian Script ITC", "Monotype Corsiva", "Segoe Script", "Apple Chancery",
+               "URW Chancery L", "Z003", "Times New Roman", serif;
   font-weight: 400;
   font-style: italic;
   font-synthesis: none;
@@ -121,7 +121,7 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
   margin-bottom: .6rem;
   font-size: .875rem;
 }
-.number { font-family: ui-monospace, Consolas; font-variant-numeric: tabular-nums; }
+.number { font-family: ui-monospace, Consolas, monospace; font-variant-numeric: tabular-nums; }
 .number::after {
   counter-reset: reading var(--reading);
   content: counter(reading) "%";
@@ -155,19 +155,18 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
   padding: 2rem 1.25rem;
   text-align: center;
 }
-.boot-prompt { display: block; margin-bottom: 1.5rem; color: #2f0909; font: 1rem/1.2 var(--pixel-font); }
-.entrance h1 { font: 400 clamp(2.6rem, 8vw, 6.2rem)/1.04 var(--pixel-font); }
-.entrance h1 .unfinished-word, .entrance h1 .script { font-family: inherit; font-style: normal; letter-spacing: 0; }
-.entrance h1 .script { display: block; color: #2b080c; margin-top: .22em; font-size: .53em; letter-spacing: .08em; }
+.boot-prompt { display: block; margin-bottom: 1.5rem; color: #d9b3ba; font: 400 1.1rem/1.2 var(--casablanca); }
+.entrance h1 { font: 400 clamp(3.25rem, 8vw, 7rem)/1.04 var(--casablanca); }
+.entrance h1 .script { display: block; color: #e0b8c0; margin-top: .1em; font-size: .71em; letter-spacing: -.044em; }
 .entrance-status { width: min(17.5rem, 80vw); }
-.entrance-status .meter-label, .entrance-status .number, .entrance-status .quiet-link { font: 400 .98rem/1.5 var(--pixel-font); }
-.entrance-status .quiet-link { margin-top: .85rem; color: #ffffff; }
+.entrance-status .meter-label, .entrance-status .number, .entrance-status .quiet-link { font: 400 1.1rem/1.5 var(--casablanca); }
+.entrance-status .quiet-link { margin-top: .85rem; color: #fff; }
 .entrance-status .track { height: 8px; position: relative; }
-.entrance-status .track::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0 8px, #20312a 8px 10px); }
+.entrance-status .track::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0 8px, #24322c 8px 10px); }
 @keyframes cursor-pulse { 0%, 45% { opacity: 1; } 55%, 100% { opacity: .2; } }
 @media (prefers-reduced-motion: no-preference) {
   .entrance-status .meter { animation-timing-function: steps(25, end); }
-  .pixel-cursor { animation: cursor-pulse 1s step-end 3; }
+  .pixel-cursor { animation: cursor-pulse 1s step-end 8; }
 }
 
 /* 4. The exhibition title and the artist's drawing share the opening screen. */
@@ -208,7 +207,7 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
   to { opacity: 1; transform: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .gallery-intro .exhibit-title, .artist-portrait { animation: gallery-arrival var(--hero-time) ease-out both; }
+  .artist-portrait { animation: gallery-arrival var(--hero-time) ease-out both; }
 }
 /* The ornament is a cluster of three four-petal rosettes floating in the header. */
 .header-ornament {
@@ -217,7 +216,11 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
 }
 .header-ornament i {
   width: 7px; aspect-ratio: 1;
- 
+  background:
+    radial-gradient(ellipse 25% 31% at 50% 25%, currentColor 94%, transparent),
+    radial-gradient(ellipse 25% 31% at 50% 75%, currentColor 94%, transparent),
+    radial-gradient(ellipse 31% 25% at 25% 50%, currentColor 94%, transparent),
+    radial-gradient(ellipse 31% 25% at 75% 50%, currentColor 94%, transparent);
 }
 .header-ornament i:nth-child(2) { width: 30px; transform: rotate(45deg); }
 .selected-work {
@@ -225,18 +228,19 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
   display: grid; align-items: center; text-align: center;
 }
 .selected-type, .selected-work .selected-type {
-  font-family: "Casablanca Antique" 400 1.18rem/1.2 var(--selected-font); letter-spacing: .07em;
-  color: var(--wine); text-transform: none;
+  font: 400 1.18rem/1.2 var(--casablanca); letter-spacing: .015em;
+  color: #000; text-transform: none;
 }
 .selected-work .selected-type { font-size: clamp(1.15rem, 1.8vw, 1.55rem); }
 .gather {
   max-width: 100%; margin: clamp(1.2rem, 3vh, 2.6rem) auto .65rem;
-  font-family;: "Casablanca Antique", 
+  font: 400 clamp(3rem, 8.2vw, 7.3rem)/1.12 var(--casablanca); letter-spacing: -.02em;
+}
 .work-entry { display: grid; justify-items: center; gap: clamp(1.6rem, 4vh, 3.4rem); }
-.work-entry p { font: .9rem/1.5 var(--sans); color: var(--muted); }
+.work-entry p { font: 400 1.12rem/1.5 var(--casablanca); color: var(--muted); }
 .open-work {
   display: inline-flex; align-items: center; min-height: 44px;
-  font: italic 400 1.45rem/1.2 var(--study-font); color: var(--wine);
+  font: 400 1.45rem/1.2 var(--casablanca); color: var(--wine);
   text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .24em;
 }
 a.open-work:hover { text-underline-offset: .37em; }
@@ -252,81 +256,49 @@ a.open-work:active { opacity: .52; }
 
 a.open-work:focus-visible { animation: none; opacity: 1; }
 
-/* 5. Scrambled type. The real word reserves its width and supplies its reading order. */
-.scramble-word {
-  --from-x: -.13em;
-  position: relative;
-  display: inline-block;
-  white-space: nowrap;
-}
-.scramble-word:nth-child(even) { --from-x: .15em; }
-.scramble-text { display: inline-block; }
+/* 5. Words arrive on the entrance and gallery. Portrait copy uses normal text. */
 .scramble-echo { display: none; }
-
-@keyframes settle-word {
-  0%, 45% { opacity: 0; transform: translateY(.08em); }
-  79% { opacity: 1; }
-  100% { opacity: 1; transform: none; }
-}
-@keyframes shuffle-word {
-  0% {
-    content: attr(data-mix);
-    opacity: .72;
-    transform: translate(var(--from-x), -.12em) skewX(-6deg);
-  }
-  29% {
-    content: attr(data-mix);
-    opacity: .82;
-    transform: translate(.03em, .035em) skewX(2deg);
-  }
-  30%, 48% { content: attr(data-near); opacity: .84; transform: translateY(-.025em); }
-  72%, 100% { content: attr(data-near); opacity: 0; transform: none; }
+.flow-word { display: inline-block; }
+@keyframes word-arrival {
+  from { opacity: 0; transform: translateY(.38em); }
+  to { opacity: 1; transform: translateY(0); }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .scramble-echo {
-    position: absolute;
-    inset-block-start: 0;
-    inset-inline-start: 0;
-    display: block;
-    pointer-events: none;
-    user-select: none;
+  :where(.entrance-page, .gallery-page) :is(.flow-word, .scramble-word) {
+    display: inline-block;
+    animation: word-arrival var(--flow-time) cubic-bezier(.19,.72,.22,1) var(--lag, 0ms) both;
   }
-  .scramble-echo::before { content: attr(data-mix); display: inline-block; opacity: 0; }
-  .scramble-text, .scramble-echo::before {
-    animation-duration: var(--scramble-time);
-    animation-delay: var(--word-wait, 0s);
-    animation-timing-function: linear;
-    animation-fill-mode: forwards;
-  }
-  .scramble-text { animation-name: settle-word; }
-  .scramble-echo::before { animation-name: shuffle-word; }
+  :is(.flow-word, .scramble-word):nth-child(2) { --lag: 120ms; }
+  :is(.flow-word, .scramble-word):nth-child(3) { --lag: 240ms; }
+  .exhibit-title, .entrance-title h1 { --flow-time: var(--hero-time); }
+  .exhibit-title .script, .entrance-title .script { --lag: 140ms; }
+  .exhibit-title .script > :nth-child(2), .entrance-title .script > :nth-child(2) { --lag: 260ms; }
 
-  /* Where view timelines are supported, lower text resolves as it crosses the edge. */
   @supports (animation-timeline: view()) and (animation-range: entry 0% entry 100%) {
-    :where(.scroll-words) .scramble-word { view-timeline: --word-view block; }
-    :where(.scroll-words) .scramble-text,
-    :where(.scroll-words) .scramble-echo::before {
-      animation-timeline: --word-view;
-      animation-range: entry 0% entry 100%;
+    .gallery-page .scroll-words :is(.selected-type, .gather, .work-entry p, .open-work) { view-timeline: --line block; }
+    .gallery-page .scroll-words :is(.flow-word, .scramble-word) {
+      animation-timeline: --line;
       animation-duration: 1ms;
       animation-delay: 0s;
+      animation-range: entry 0% entry 100%;
     }
   }
-
-  /* A viewport trigger starts a timed animation that finishes even if the visitor stops scrolling. */
-  @supports (timeline-trigger: --word-in view() entry 0% exit 100%) and (trigger-scope: --word-in) and (animation-trigger: --word-in play-once) {
-    :where(.scroll-words) .scramble-word {
-      timeline-trigger: --word-in view() entry 0% exit 100%;
-      trigger-scope: --word-in;
+  @supports (timeline-trigger: --line-in view() entry 0% exit 100%) and (trigger-scope: --line-in) and (animation-trigger: --line-in play-once) {
+    .gallery-page .scroll-words :is(.selected-type, .gather, .work-entry p, .open-work) {
+      timeline-trigger: --line-in view() entry 0% exit 100%;
+      trigger-scope: --line-in;
     }
-    :where(.scroll-words) .scramble-text,
-    :where(.scroll-words) .scramble-echo::before {
+    .gallery-page .scroll-words :is(.flow-word, .scramble-word) {
       animation-timeline: auto;
       animation-range: normal;
-      animation-duration: var(--scramble-time);
-      animation-trigger: --word-in play-once;
+      animation-duration: var(--flow-time);
+      animation-delay: var(--lag, 0ms);
+      animation-trigger: --line-in play-once;
     }
   }
+}
+@media print, (forced-colors: active) {
+  :where(.entrance-page, .gallery-page) :is(.flow-word, .scramble-word) { animation: none; }
 }
 
 /* A translucent wash is visible on white paper. The second layer blends with the ink and painting. */
@@ -339,11 +311,15 @@ body::before, body::after {
 }
 body::before {
   z-index: 10;
- 
+  background:
+    radial-gradient(ellipse at 12% 7%, rgb(181 82 115 / 25%), transparent 60%),
+    radial-gradient(ellipse at 94% 85%, rgb(88 72 132 / 20%), transparent 63%);
 }
 body::after {
   z-index: 11;
-
+  background:
+    radial-gradient(ellipse at 12% 7%, #f1aabe, transparent 64%),
+    radial-gradient(ellipse at 94% 85%, #9b8cbd, transparent 67%);
   mix-blend-mode: soft-light;
 }
 @media (forced-colors: active), print {
@@ -369,7 +345,7 @@ body::after {
 .loading-orbit { position: absolute; left: calc(50% - 10px); top: calc(50% - 10px); width: 20px; height: 20px; }
 .loading-orbit i {
   position: absolute; left: 8px; top: 0; width: 4px; height: 4px; border-radius: 50%;
-  background: #fff8ea; box-shadow: 0 0 2px #231b17; transform-origin: 2px 10px;
+  background: #000; box-shadow: 0 0 2px #fff; transform-origin: 2px 10px;
 }
 .loading-orbit i:nth-child(2) { transform: rotate(120deg); opacity: .78; }
 .loading-orbit i:nth-child(3) { transform: rotate(240deg); opacity: .56; }
@@ -382,8 +358,8 @@ body::after {
 .work-loading .meter { width: min(100%, 32vh, 18rem); }
 .boot-error {
   position: fixed; inset: 0; z-index: 30; overflow: auto;
-  color: #c8debd; background-color: #000;
-  background-image: repeating-linear-gradient(0deg, transparent 0 3px, #a5c6a207 3px 4px);
+  color: #920c0c; background-color: #000;
+  background-image: repeating-linear-gradient(0deg, transparent 0 3px, #00000007 3px 4px);
   font-family: ui-monospace, Consolas, "Courier New", monospace;
 }
 .boot-log { max-width: 66rem; margin-inline: auto; padding: clamp(3rem, 17vh, 12rem) clamp(1.3rem, 7vw, 7rem) 3.5rem; }
@@ -397,16 +373,15 @@ body::after {
   @media (forced-colors: none) {
     .boot-error h2 {
       color: transparent; text-shadow: none; background-clip: text;
-      background-image: repeating-linear-gradient(0deg, #9daa97 0 1px, #cce1c1 1px 4px);
+      background-image: repeating-linear-gradient(0deg, #9daa97 0 1px, #f40f0f 1px 4px);
     }
-    .boot-error h2::after { background: #cce1c1; }
+    .boot-error h2::after { background: #000; }
   }
 }
 .boot-status { font-size: clamp(.95rem, 2vw, 1.15rem); }
-.boot-error:not(:target) { --word-wait: calc(var(--time) + var(--hold)); }
 .boot-statement { max-width: 52ch; margin: 2.1rem 0 1.1rem; color: #abbba4; font-size: .9rem; line-height: 1.7; }
 .retry, .boot-back { display: block; width: fit-content; padding-block: .7rem; }
-.retry { font-size: 1.13rem; text-decoration-thickness: 2px; }
+.retry { font-size: 2.13rem; text-decoration-thickness: 2px; }
 .retry::before { content: "> " / ""; }
 .boot-back { font-size: .8rem; color: #a3b49a; }
 @keyframes boot-on  { from { visibility: hidden; } to { visibility: visible; } }
@@ -438,7 +413,6 @@ body::after {
   .work-page:not(:has(:target)) .work-loading,
   .work-page:not(:has(:target)) .boot-error,
   .work-page:not(:has(:target)) > .site-bar { animation-delay: calc(.72s + var(--time) + var(--hold)); }
-  .work-page:not(:has(:target)) .boot-error { --word-wait: calc(.72s + var(--time) + var(--hold)); }
 }
 
 /* The short pause also exposes the blurred state when movement is reduced. */
