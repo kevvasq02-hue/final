@@ -7,32 +7,50 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Exhibit Bitmap"; src: url("fonts/exhibit-bitmap.ttf") format("truetype"); font-display: swap;
+}
+@font-face {
+  font-family: "Exhibit Small Caps"; src: url("fonts/lmromancaps10-regular.otf") format("opentype"); font-display: swap;
+}
+@font-face {
+  font-family: "Exhibit Italic"; src: url("fonts/lmroman12-italic.otf") format("opentype"); font-style: italic; font-display: swap;
+}
+
 /* 1. Gallery materials and shared type */
 :root {
   --ornament-color: #390f1b;
   --ornament-gap: 8px;
   --casablanca: "Casablanca Antique", var(--serif);
+  --study-font: "Exhibit Italic", var(--serif);
+  --pixel-font: "Exhibit Bitmap", ui-monospace, monospace;
   --drawing-width: clamp(3.4rem, 12svh, 7.4rem);
   --hero-time: 2.8s;
   --flow-time: 1.15s;
+  --light-strength: .36;
   --paper: #ffffff;
   --mat: #ebe7da;
   --ink: #20352c;
   --muted: #454c46;
   --wine: #461212;
+  --rule: #b9b9aa;
   --serif: "Times New Roman", Times, serif;
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  --time: 1.85s;
+  --hold: 0.95s;
 }
 * { box-sizing: border-box; }
 html { color-scheme: light; background: var(--paper); }
 body {
+  isolation: isolate;
   margin: 0;
   background: var(--paper);
   color: var(--ink);
   font: 1rem/1.5 var(--sans);
 }
 a { color: inherit; text-underline-offset: .22em; }
-a:focus-visible {
+button, input { font: inherit; }
+a:focus-visible, button:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 5px;
 }
@@ -63,8 +81,11 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
 .site-bar {
   min-height: 5rem;
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  gap: 1rem;
   position: relative;
+  font-size: .9rem;
 }
 .site-bar a, .quiet-link {
   min-height: 64px;
@@ -74,14 +95,22 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
   text-decoration: none;
 }
 .site-bar a:hover, .quiet-link:hover { text-decoration: underline; }
-/* 2. The entrance meter reaches 100% in 6.5 seconds. */
+.artist-name { font-weight: 550; letter-spacing: -.025em; }
+.eyebrow {
+  font: 600 .76rem/1.5 var(--sans);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.quiet-link { width: fit-content; font-size: .84rem; }
+
+/* 2. A shared percentage meter. Changing the integer moves the line and number together. */
 @property --reading {
   syntax: "<integer>";
   inherits: true;
   initial-value: 0;
 }
 .meter {
-  --reading: 100;
+  --reading: var(--stop);
   width: min(100%, 18rem);
 }
 .meter-label {
@@ -90,13 +119,14 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
   justify-content: space-between;
   gap: 1.2rem;
   margin-bottom: .6rem;
+  font-size: .875rem;
 }
-.number { font-variant-numeric: tabular-nums; }
+.number { font-family: ui-monospace, Consolas, monospace; font-variant-numeric: tabular-nums; }
 .number::after {
   counter-reset: reading var(--reading);
   content: counter(reading) "%";
 }
-.track { position: relative; height: 8px; background: #505050; }
+.track { height: 2px; background: var(--track-color, var(--rule)); }
 .track > span {
   display: block;
   width: calc(var(--reading) * 1%);
@@ -105,16 +135,17 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
 }
 @keyframes count-up {
   from { --reading: 0; }
-  to   { --reading: 100; }
+  to   { --reading: var(--stop); }
 }
 @media (prefers-reduced-motion: no-preference) {
-  html { scroll-behavior: smooth; }
-  .meter { animation: count-up 6.5s steps(25, end) both; }
+  .gallery-page { scroll-behavior: smooth; }
+  .meter { animation: count-up var(--time) cubic-bezier(.22,.62,.34,1) both; }
 }
 
 /* 3. The entrance. The actual page change is in index.html. */
 .entrance-page { background: #000000; color: var(--paper); }
 .entrance {
+  --track-color: #505050;
   min-height: 100vh;
   min-height: 100svh;
   display: grid;
@@ -124,12 +155,19 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
   padding: 2rem 1.25rem;
   text-align: center;
 }
-.entrance h1 { font-size: clamp(3.25rem, 8vw, 7rem); line-height: 1.04; }
+.boot-prompt { display: block; margin-bottom: 1.5rem; color: #d9b3ba; font: 400 1.1rem/1.2 var(--casablanca); }
+.entrance h1 { font: 400 clamp(3.25rem, 8vw, 7rem)/1.04 var(--casablanca); }
 .entrance h1 .script { display: block; color: #66091a; margin-top: .1em; font-size: .71em; letter-spacing: -.044em; }
 .entrance-status { width: min(17.5rem, 80vw); }
 .entrance-status .meter-label, .entrance-status .number, .entrance-status .quiet-link { font: 400 1.1rem/1.5 var(--casablanca); }
 .entrance-status .quiet-link { margin-top: .85rem; color: #fff; }
+.entrance-status .track { height: 8px; position: relative; }
 .entrance-status .track::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0 8px, #000000 8px 10px); }
+@keyframes cursor-pulse { 0%, 45% { opacity: 1; } 55%, 100% { opacity: .2; } }
+@media (prefers-reduced-motion: no-preference) {
+  .entrance-status .meter { animation-timing-function: steps(25, end); }
+  .pixel-cursor { animation: cursor-pulse 1s step-end 8; }
+}
 
 /* 4. The exhibition title and the artist's drawing share the opening screen. */
 .gallery-intro {
@@ -157,7 +195,7 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
 }
 
 .artist-portrait { width: 100%; margin: 0; display: grid; justify-items: center; }
-.drawing-window { position: relative; width: min(100%, var(--drawing-width)); aspect-ratio: 696 / 1480; overflow: hidden; }
+.drawing-window { position: relative; width: min(100%, 120px); aspect-ratio: 696 / 1480; overflow: hidden; }
 .drawing-window img {
   display: block; position: absolute; width: 220.69%; height: auto;
   left: -48.28%; top: -38.38%;
@@ -189,36 +227,56 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
   background: var(--mat); min-height: 79vh; min-height: 79svh; padding-block: clamp(5rem, 10vw, 9rem);
   display: grid; align-items: center; text-align: center;
 }
-.selected-type {
+.selected-type, .selected-work .selected-type {
   font: 400 1.18rem/1.2 var(--casablanca); letter-spacing: .015em;
-  color: #000;
+  color: #000; text-transform: none;
 }
 .selected-work .selected-type { font-size: clamp(1.15rem, 1.8vw, 1.55rem); }
 .gather {
   max-width: 100%; margin: clamp(1.2rem, 3vh, 2.6rem) auto .65rem;
   font: 400 clamp(3rem, 8.2vw, 7.3rem)/1.12 var(--casablanca); letter-spacing: -.02em;
 }
-.work-status { font: 400 1.12rem/1.5 var(--casablanca); color: var(--muted); }
+.work-entry { display: grid; justify-items: center; gap: clamp(1.6rem, 4vh, 3.4rem); }
+.work-entry p { font: 400 1.12rem/1.5 var(--casablanca); color: var(--muted); }
+.open-work {
+  display: inline-flex; align-items: center; min-height: 44px;
+  font: 400 1.45rem/1.2 var(--casablanca); color: var(--wine);
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .24em;
+}
+a.open-work:hover { text-underline-offset: .37em; }
+a.open-work:active { opacity: .52; }
+@keyframes departing-ink { to { opacity: 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  a.open-work { view-transition-name: catalogue-link; }
+  ::view-transition-old(catalogue-link) { animation: departing-ink .52s ease-out both; }
+  @supports (animation-timeline: view()) and (animation-range: entry 0% entry 100%) {
+    a.open-work { animation: departing-ink 1ms linear reverse both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
+  }
+}
 
-/* 5. Words enter on page load or as the selected work scrolls into view. */
+a.open-work:focus-visible { animation: none; opacity: 1; }
+
+/* 5. Words arrive on the entrance and gallery. Portrait copy uses normal text. */
+.scramble-echo { display: none; }
 .flow-word { display: inline-block; }
 @keyframes word-arrival {
   from { opacity: 0; transform: translateY(.38em); }
   to { opacity: 1; transform: translateY(0); }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .flow-word {
+  :where(.entrance-page, .gallery-page) :is(.flow-word, .scramble-word) {
+    display: inline-block;
     animation: word-arrival var(--flow-time) cubic-bezier(.19,.72,.22,1) var(--lag, 0ms) both;
   }
-  .flow-word:nth-child(2) { --lag: 120ms; }
-  .flow-word:nth-child(3) { --lag: 240ms; }
+  :is(.flow-word, .scramble-word):nth-child(2) { --lag: 120ms; }
+  :is(.flow-word, .scramble-word):nth-child(3) { --lag: 240ms; }
   .exhibit-title, .entrance-title h1 { --flow-time: var(--hero-time); }
   .exhibit-title .script, .entrance-title .script { --lag: 140ms; }
   .exhibit-title .script > :nth-child(2), .entrance-title .script > :nth-child(2) { --lag: 260ms; }
 
   @supports (animation-timeline: view()) and (animation-range: entry 0% entry 100%) {
-    .selected-work :is(.selected-type, .gather, .work-status) { view-timeline: --line block; }
-    .selected-work .flow-word {
+    .gallery-page .scroll-words :is(.selected-type, .gather, .work-entry p, .open-work) { view-timeline: --line block; }
+    .gallery-page .scroll-words :is(.flow-word, .scramble-word) {
       animation-timeline: --line;
       animation-duration: 1ms;
       animation-delay: 0s;
@@ -226,11 +284,11 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
     }
   }
   @supports (timeline-trigger: --line-in view() entry 0% exit 100%) and (trigger-scope: --line-in) and (animation-trigger: --line-in play-once) {
-    .selected-work :is(.selected-type, .gather, .work-status) {
+    .gallery-page .scroll-words :is(.selected-type, .gather, .work-entry p, .open-work) {
       timeline-trigger: --line-in view() entry 0% exit 100%;
       trigger-scope: --line-in;
     }
-    .selected-work .flow-word {
+    .gallery-page .scroll-words :is(.flow-word, .scramble-word) {
       animation-timeline: auto;
       animation-range: normal;
       animation-duration: var(--flow-time);
@@ -240,7 +298,190 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
   }
 }
 @media print, (forced-colors: active) {
-  .flow-word { animation: none; }
+  :where(.entrance-page, .gallery-page) :is(.flow-word, .scramble-word) { animation: none; }
+}
+
+/* A translucent wash is visible on white paper. The second layer blends with the ink and painting. */
+.work-page::before, .work-page::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--light-strength);
+}
+.work-page::before {
+  z-index: 10;
+  background:
+    radial-gradient(ellipse at 12% 7%, rgb(181 82 115 / 25%), transparent 60%),
+    radial-gradient(ellipse at 94% 85%, rgb(88 72 132 / 20%), transparent 63%);
+}
+.work-page::after {
+  z-index: 11;
+  background:
+    radial-gradient(ellipse at 12% 7%, #f1aabe, transparent 64%),
+    radial-gradient(ellipse at 94% 85%, #f4f4f4, transparent 67%);
+  mix-blend-mode: soft-light;
+}
+@media (forced-colors: active), print {
+  .work-page::before, .work-page::after, .scramble-echo { display: none; }
+  .scramble-text { animation: none; }
+}
+
+/* 6. The work has a separate loading attempt. The error waits until the meter stalls. */
+.viewing-room {
+  min-height: calc(100vh - 5rem);
+  min-height: calc(100svh - 5rem);
+  display: grid;
+  align-items: center;
+  padding-block: clamp(2rem, 6vh, 4.5rem);
+}
+.attempt { display: grid; place-items: center; }
+.work-loading { display: none; width: min(100%, 22rem); gap: .8rem; justify-items: center; }
+.loading-frame {
+  position: relative; width: min(100%, 32vh, 18rem); aspect-ratio: 1080 / 1360;
+  overflow: hidden; background: var(--mat);
+}
+.blurred-print { width: 100%; height: 100%; object-fit: cover; filter: blur(10px); transform: scale(1.1); }
+.loading-orbit { position: absolute; left: calc(50% - 10px); top: calc(50% - 10px); width: 20px; height: 20px; }
+.loading-orbit i {
+  position: absolute; left: 8px; top: 0; width: 4px; height: 4px; border-radius: 50%;
+  background: #000; box-shadow: 0 0 2px #fff; transform-origin: 2px 10px;
+}
+.loading-orbit i:nth-child(2) { transform: rotate(120deg); opacity: .78; }
+.loading-orbit i:nth-child(3) { transform: rotate(240deg); opacity: .56; }
+@keyframes orbit { to { transform: rotate(1turn); } }
+@keyframes leave-wall { from { opacity: 1; visibility: visible; } to { opacity: 0; visibility: hidden; } }
+.link-departure { display: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .loading-orbit { animation: orbit 1.05s linear infinite; }
+}
+.work-loading .meter { width: min(100%, 32vh, 18rem); }
+.boot-error {
+  position: fixed; inset: 0; z-index: 30; overflow: auto;
+  color: #920c0c; background-color: #000;
+  background-image: repeating-linear-gradient(0deg, transparent 0 3px, #00000007 3px 4px);
+  font-family: ui-monospace, Consolas, "Courier New", monospace;
+}
+.boot-log { max-width: 66rem; margin-inline: auto; padding: clamp(3rem, 17vh, 12rem) clamp(1.3rem, 7vw, 7rem) 3.5rem; }
+.boot-file { color: #9fae99; font-size: .9rem; }
+.boot-error h2 {
+  margin: .65em 0 .12em; font: 400 clamp(2.45rem, 8vw, 7rem)/1 var(--pixel-font);
+  letter-spacing: -.025em; text-transform: uppercase; text-shadow: 1px 0 #9aba9280;
+}
+.boot-error h2::after { content: ""; display: inline-block; width: .24em; height: .71em; margin-left: .15em; background: currentColor; }
+@supports (background-clip: text) {
+  @media (forced-colors: none) {
+    .boot-error h2 {
+      color: transparent; text-shadow: none; background-clip: text;
+      background-image: repeating-linear-gradient(0deg, #9daa97 0 1px, #f40f0f 1px 4px);
+    }
+    .boot-error h2::after { background: #000; }
+  }
+}
+.boot-status { font-size: clamp(.95rem, 2vw, 1.15rem); }
+.boot-statement { max-width: 52ch; margin: 2.1rem 0 1.1rem; color: #abbba4; font-size: .9rem; line-height: 1.7; }
+.retry, .boot-back { display: block; width: fit-content; padding-block: .7rem; }
+.retry { font-size: 2.13rem; text-decoration-thickness: 2px; }
+.retry::before { content: "> " / ""; }
+.boot-back { font-size: .8rem; color: #a3b49a; }
+@keyframes boot-on  { from { visibility: hidden; } to { visibility: visible; } }
+@keyframes boot-off { from { visibility: visible; } to { visibility: hidden; } }
+@media (prefers-reduced-motion: no-preference) {
+  .work-loading { display: grid; animation: boot-off 1ms steps(1,end) calc(var(--time) + var(--hold)) both; }
+  .boot-error:not(:target) { animation: boot-on 1ms steps(1,end) calc(var(--time) + var(--hold)) both; }
+}
+#statement:target + .work-loading { display: none; }
+/* Keep keyboard focus on the active screen; navigation is available inside each state. */
+.work-page:not(:has(#artwork:target)) > .site-bar { visibility: hidden; }
+@media (prefers-reduced-motion: no-preference) {
+  .work-page:not(:has(:target)) > .site-bar {
+    visibility: visible;
+    animation: boot-off 1ms steps(1,end) calc(var(--time) + var(--hold)) both;
+  }
+}
+.recovered { display: none; scroll-margin-block-start: 1rem; }
+#artwork:target { display: block; }
+#artwork:target ~ .attempt { display: none; }
+
+/* A short outgoing wall lets the link dissolve into the painting, including for local files. */
+@media (prefers-reduced-motion: no-preference) {
+  .work-page:not(:has(:target)) > .link-departure {
+    display: grid; place-items: center; position: fixed; inset: 0; z-index: 25;
+    pointer-events: none; background: var(--mat); animation: leave-wall .72s ease-in both;
+  }
+  .work-page:not(:has(:target)) .work-loading .meter { animation-delay: .72s; }
+  .work-page:not(:has(:target)) .work-loading,
+  .work-page:not(:has(:target)) .boot-error,
+  .work-page:not(:has(:target)) > .site-bar { animation-delay: calc(.72s + var(--time) + var(--hold)); }
+}
+
+/* The short pause also exposes the blurred state when movement is reduced. */
+@media (prefers-reduced-motion: reduce) {
+  .work-loading { display: grid; animation: boot-off 1ms steps(1,end) 1s both; }
+  .boot-error:not(:target) { animation: boot-on 1ms steps(1,end) 1s both; }
+}
+/* 7. The painting hangs at left; the start of the label sits below its top edge. */
+.recovered-layout {
+  display: grid; grid-template-columns: minmax(0, 1.28fr) minmax(0, .85fr);
+  gap: clamp(1.5rem, 6vw, 6rem); margin: 0; align-items: start;
+}
+.framed-art { display: grid; place-items: center; min-width: 0; padding: clamp(1rem, 3vw, 2.7rem); background: var(--mat); }
+.image-stage { position: relative; width: min(100%, 49vh, 32rem); }
+.image-stage > img { display: block; width: 100%; height: auto; }
+.wall-label { max-width: 30rem; min-width: 0; padding-block-start: clamp(1rem, 7vh, 5rem); }
+.label-credit { font-size: clamp(1.55rem, 2.5vw, 2.35rem); line-height: 1.15; color: var(--wine); }
+.label-medium { margin-top: .45rem; font-size: .8rem; letter-spacing: .065em; color: var(--muted); }
+.wall-label h2 {
+  margin: 1.1rem 0 1.4rem; font: italic 400 clamp(2.85rem, 5.7vw, 6rem)/1.05 var(--study-font);
+  letter-spacing: -.035em;
+}
+.statement-copy { max-width: 36ch; margin-left: clamp(0rem, 1.6vw, 1.6rem); font: 1.15rem/1.55 Baskerville, "Palatino Linotype", Palatino, var(--serif); }
+.fragment-hint { margin-top: 1.75rem; max-width: 36ch; font-size: .82rem; color: var(--muted); }
+.wall-label .quiet-link { margin-right: 1rem; text-decoration: underline; }
+.wall-label button { display: inline-flex; padding: 0; color: inherit; border: 0; background: transparent; cursor: pointer; text-decoration: underline; }
+.tiles {
+  display: grid;
+  position: absolute;
+  inset: 0;
+  grid-template-columns: 30% 44% 26%;
+  grid-template-rows: 54% 46%;
+}
+.tile { position: relative; min-width: 0; }
+.tile input {
+  display: block;
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.tile::before, .cover { position: absolute; inset: 0; pointer-events: none; }
+.cover {
+  opacity: 0;
+  display: grid;
+  place-content: center;
+  background: var(--mat);
+  color: var(--muted);
+  font-size: .76rem;
+}
+.tile input:checked + .cover { opacity: 1; }
+.cover .scramble-word { display: none; }
+.tile input:checked + .cover .scramble-word { display: inline-block; }
+.tile:focus-within { z-index: 1; outline: 2px solid var(--paper); outline-offset: -5px; box-shadow: inset 0 0 0 7px var(--wine); }
+@keyframes lift-paper {
+  from { clip-path: inset(0 0 0 0); }
+  to   { clip-path: inset(0 0 100% 0); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  #artwork:target .tile::before {
+    content: "";
+    background: rgb(235 231 218 / 18%);
+    animation: lift-paper .92s cubic-bezier(.4,0,.25,1) var(--wait) both;
+  }
+  .cover { transition: opacity .25s ease; }
 }
 
 @media (max-width: 650px) {
@@ -248,7 +489,15 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
   .site-bar { min-height: 4rem; }
   .gallery-intro { min-height: 76svh; grid-template-columns: minmax(0, 1fr) 30%; gap: clamp(.6rem, 2.5vw, 1.15rem); align-content: center; }
   .exhibit-title { font-size: clamp(2.2rem, 10.3vw, 4.75rem); }
+  .intro-line { margin-top: 1.6rem; }
   .plate-initials { font-size: 1.35rem; }
   .selected-work { min-height: 76svh; padding-block: 5rem; }
   :root { --drawing-width: clamp(3.25rem, 14vw, 4.5rem); }
+  .viewing-room { min-height: calc(100svh - 4rem); }
+  .recovered-layout { grid-template-columns: 1fr; gap: 1.4rem; }
+  .framed-art { grid-row: 1; }
+  .image-stage { width: min(100%, 24rem); }
+  .wall-label { max-width: 30rem; padding-block-start: .6rem; }
+  .wall-label h2 { margin: .75rem 0 1rem; }
+  .wall-label .quiet-link { display: inline-flex; margin: .5rem 1.1rem 0 0; }
 }
