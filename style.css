@@ -9,7 +9,7 @@
 
 /* 1. Gallery materials and shared type */
 :root {
-  --ornament-color: #744351;
+  --ornament-color: #390f1b;
   --ornament-gap: 8px;
   --casablanca: "Casablanca Antique", var(--serif);
   --drawing-width: clamp(3.4rem, 12svh, 7.4rem);
@@ -115,7 +115,7 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
 }
 
 /* 3. The entrance. The actual page change is in index.html. */
-.entrance-page { background: #24322c; color: var(--paper); }
+.entrance-page { background: #000000; color: var(--paper); }
 .entrance {
   min-height: 100vh;
   min-height: 100svh;
@@ -126,13 +126,13 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
   padding: 2rem 1.25rem;
   text-align: center;
 }
-.boot-prompt { display: block; margin-bottom: 1.5rem; color: #1f0308; font: 400 1.1rem/1.2 var(--casablanca); }
+.boot-prompt { display: block; margin-bottom: 1.5rem; color: #000000; font: 400 1.1rem/1.2 var(--casablanca); }
 .entrance h1 { font-size: clamp(3.25rem, 8vw, 7rem); line-height: 1.04; }
-.entrance h1 .script { display: block; color: #360710; margin-top: .1em; font-size: .71em; letter-spacing: -.044em; }
+.entrance h1 .script { display: block; color: #28030a; margin-top: .1em; font-size: .71em; letter-spacing: -.044em; }
 .entrance-status { width: min(17.5rem, 80vw); }
 .entrance-status .meter-label, .entrance-status .number, .entrance-status .quiet-link { font: 400 1.1rem/1.5 var(--casablanca); }
-.entrance-status .quiet-link { margin-top: .85rem; color: #fff; }
-.entrance-status .track::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0 8px, #24322c 8px 10px); }
+.entrance-status .quiet-link { margin-top: .85rem; color: #ffffff; }
+.entrance-status .track::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0 8px, #000000 8px 10px); }
 @keyframes cursor-pulse { 0%, 45% { opacity: 1; } 55%, 100% { opacity: .2; } }
 @media (prefers-reduced-motion: no-preference) {
   .pixel-cursor { animation: cursor-pulse 1s step-end 8; }
@@ -258,19 +258,7 @@ body::before, body::after {
   pointer-events: none;
   opacity: var(--light-strength);
 }
-body::before {
-  z-index: 10;
-  background:
-    radial-gradient(ellipse at 12% 7%, rgba(0, 0, 0, 0.25), transparent 60%),
-    radial-gradient(ellipse at 94% 85%, rgba(0, 0, 0, 0.2), transparent 63%);
-}
-body::after {
-  z-index: 11;
-  background:
-    radial-gradient(ellipse at 12% 7%, #000000, transparent 64%),
-    radial-gradient(ellipse at 94% 85%, #000000, transparent 67%);
-  mix-blend-mode: soft-light;
-}
+
 @media (forced-colors: active), print {
   body::before, body::after, }
 
