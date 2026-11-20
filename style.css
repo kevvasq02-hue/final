@@ -198,7 +198,7 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
 .drawing-window { position: relative; width: min(100%, 320px); aspect-ratio: 1080 / 1920; overflow: hidden; }
 .drawing-window img {
   display: block; position: absolute; width: 220.69%; height: auto;
-  left: -48.28%; top: -58.38%;
+  left: -48.28%; top: -48.38%;
 }
 .plate-initials { display: inline-block; position: relative; font-size: 1.7rem; line-height: 1.2; }
 .plate-initials > span { position: relative; top: .18em; margin-left: -.4em; }
