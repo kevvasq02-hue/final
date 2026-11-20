@@ -373,7 +373,7 @@ a.open-work:focus-visible { animation: none; opacity: 1; }
   @media (forced-colors: none) {
     .boot-error h2 {
       color: transparent; text-shadow: none; background-clip: text;
-      background-image: repeating-linear-gradient(0deg, #393939 0 1px, #430b0b 1px 4px);
+      background-image: repeating-linear-gradient(0deg, #393939 0 1px, #440606 1px 4px);
     }
     .boot-error h2::after { background: #000; }
   }
