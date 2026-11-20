@@ -126,9 +126,9 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
   padding: 2rem 1.25rem;
   text-align: center;
 }
-.boot-prompt { display: block; margin-bottom: 1.5rem; color: #d9b3ba; font: 400 1.1rem/1.2 var(--casablanca); }
+.boot-prompt { display: block; margin-bottom: 1.5rem; color: #1f0308; font: 400 1.1rem/1.2 var(--casablanca); }
 .entrance h1 { font-size: clamp(3.25rem, 8vw, 7rem); line-height: 1.04; }
-.entrance h1 .script { display: block; color: #e0b8c0; margin-top: .1em; font-size: .71em; letter-spacing: -.044em; }
+.entrance h1 .script { display: block; color: #360710; margin-top: .1em; font-size: .71em; letter-spacing: -.044em; }
 .entrance-status { width: min(17.5rem, 80vw); }
 .entrance-status .meter-label, .entrance-status .number, .entrance-status .quiet-link { font: 400 1.1rem/1.5 var(--casablanca); }
 .entrance-status .quiet-link { margin-top: .85rem; color: #fff; }
@@ -261,14 +261,14 @@ body::before, body::after {
 body::before {
   z-index: 10;
   background:
-    radial-gradient(ellipse at 12% 7%, rgb(181 82 115 / 25%), transparent 60%),
-    radial-gradient(ellipse at 94% 85%, rgb(88 72 132 / 20%), transparent 63%);
+    radial-gradient(ellipse at 12% 7%, rgba(0, 0, 0, 0.25), transparent 60%),
+    radial-gradient(ellipse at 94% 85%, rgba(0, 0, 0, 0.2), transparent 63%);
 }
 body::after {
   z-index: 11;
   background:
-    radial-gradient(ellipse at 12% 7%, #f1aabe, transparent 64%),
-    radial-gradient(ellipse at 94% 85%, #9b8cbd, transparent 67%);
+    radial-gradient(ellipse at 12% 7%, #000000, transparent 64%),
+    radial-gradient(ellipse at 94% 85%, #000000, transparent 67%);
   mix-blend-mode: soft-light;
 }
 @media (forced-colors: active), print {
