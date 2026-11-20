@@ -128,7 +128,7 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
 }
 .boot-prompt { display: block; margin-bottom: 1.5rem; color: #000000; font: 400 1.1rem/1.2 var(--casablanca); }
 .entrance h1 { font-size: clamp(3.25rem, 8vw, 7rem); line-height: 1.04; }
-.entrance h1 .script { display: block; color: #28030a; margin-top: .1em; font-size: .71em; letter-spacing: -.044em; }
+.entrance h1 .script { display: block; color: #570615; margin-top: .1em; font-size: .71em; letter-spacing: -.044em; }
 .entrance-status { width: min(17.5rem, 80vw); }
 .entrance-status .meter-label, .entrance-status .number, .entrance-status .quiet-link { font: 400 1.1rem/1.5 var(--casablanca); }
 .entrance-status .quiet-link { margin-top: .85rem; color: #ffffff; }
