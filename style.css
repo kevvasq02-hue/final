@@ -62,8 +62,8 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
   letter-spacing: -.02em;
 }
 .script {
-  font-family: "Casablanca Antique", "Edwardian Script ITC", "Monotype Corsiva", "Segoe Script", "Apple Chancery",
-               "URW Chancery L", "Z003", serif;
+  font-family: "Casablanca Antique", "Edwardian Script ITC", "Segoe Script",
+      , serif;
   font-weight: 400;
   font-style: italic;
   font-synthesis: none;
@@ -88,7 +88,7 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
   font-size: .9rem;
 }
 .site-bar a, .quiet-link {
-  min-height: 44px;
+  min-height: 64px;
   display: inline-flex;
   align-items: center;
   gap: .45rem;
@@ -97,7 +97,7 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
 .site-bar a:hover, .quiet-link:hover { text-decoration: underline; }
 .artist-name { font-weight: 550; letter-spacing: -.025em; }
 .eyebrow {
-  font: 500 .76rem/1.5 var(--sans);
+  font: 600 .76rem/1.5 var(--sans);
   letter-spacing: .1em;
   text-transform: uppercase;
 }
@@ -121,7 +121,7 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
   margin-bottom: .6rem;
   font-size: .875rem;
 }
-.number { font-family: ui-monospace, Consolas, monospace; font-variant-numeric: tabular-nums; }
+.number { font-family: ui-monospace, Consolas; font-variant-numeric: tabular-nums; }
 .number::after {
   counter-reset: reading var(--reading);
   content: counter(reading) "%";
@@ -225,14 +225,13 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
   display: grid; align-items: center; text-align: center;
 }
 .selected-type, .selected-work .selected-type {
-  font: 400 1.18rem/1.2 var(--selected-font); letter-spacing: .07em;
+  font-family: "Casablanca Antique" 400 1.18rem/1.2 var(--selected-font); letter-spacing: .07em;
   color: var(--wine); text-transform: none;
 }
 .selected-work .selected-type { font-size: clamp(1.15rem, 1.8vw, 1.55rem); }
 .gather {
   max-width: 100%; margin: clamp(1.2rem, 3vh, 2.6rem) auto .65rem;
-  font: italic 400 clamp(3rem, 8.2vw, 7.3rem)/1.12 var(--study-font); letter-spacing: -.048em;
-}
+  font-family;: "Casablanca Antique", 
 .work-entry { display: grid; justify-items: center; gap: clamp(1.6rem, 4vh, 3.4rem); }
 .work-entry p { font: .9rem/1.5 var(--sans); color: var(--muted); }
 .open-work {
